@@ -1,0 +1,41 @@
+{
+  "name": "nexatom-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@onehop/client": "^1.3.14",
+    "@onehop/js": "^1.3.19",
+    "@onehop/react": "^1.3.14",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.0",
+    "canvas": "^2.9.3",
+    "jwt-decode": "^3.1.2",
+    "konva": "^8.3.12",
+    "nanoid": "^4.0.0",
+    "next": "12.2.5",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "18.2.0",
+    "react-konva": "^18.2.1",
+    "react-typewriter-effect": "^1.1.0",
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2",
+    "typewriter-effect": "^2.19.0",
+    "use-image": "^1.0.12",
+    "zod": "^3.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.14",
+    "@types/react": "18.0.18",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "typescript": "4.8.2"
+  }
+}

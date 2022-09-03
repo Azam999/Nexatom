@@ -1,0 +1,54 @@
+.main {
+  --main-color: #0099ff;
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-top: 6rem;
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.description {
+  color: var(--main-color);
+  font-weight: 700;
+  margin-bottom: 4rem;
+}
+
+.dashboardButton {
+  margin-bottom: 6rem;
+}
+
+.section {
+  text-align: left;
+  width: 80%;
+  background-color: var(--main-color);
+  border-radius: 2rem;
+}
+
+.section h2 {
+  font-weight: 800;
+}
+
+.section div div h4 {
+  font-weight: 700;
+}
+
+.sectionContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.sectionContainer div {
+  text-align: center;
+}
+
+.sectionContainer div img {
+  width: 50%;
+}
+

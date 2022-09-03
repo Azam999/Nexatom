@@ -1,0 +1,52 @@
+.container {
+    margin-top: 6rem;
+}
+
+.profileHeader {
+    padding: 0 6rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: row
+}
+
+.profileText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 3em;
+}
+
+.profileHeader h2 {
+    font-weight: 900;
+}
+
+.profileHeader p {
+    color: grey;
+}
+
+.profileImage {
+    border-radius: 50%;
+}
+
+.stackOverflowInformation {
+    width: 35%;
+    border: 2px solid grey;
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.badge {
+    width: 6rem;
+    padding: 0.25rem;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.badges {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

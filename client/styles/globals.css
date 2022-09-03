@@ -1,0 +1,38 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: #ffffff;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Accordion Styling */
+.accordion-button {
+    font-weight: bold;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.circleImage {
+    border-radius: 50%;
+}
+
+.react-typewriter-text {
+    font-size: 4rem;
+    font-weight: 900;
+}
+
+.dropdown-menu {
+    max-height:200px;
+    overflow:scroll; 
+ }

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@700;900&display=swap');
+
+.title {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 900;
+}
+
+.formInput {
+    border: 1px solid black;
+    width: 75%;
+    transition: all 0.5s ease-in-out;
+}
+
+.formInput:focus,
+.formInput:active {
+    outline: none !important;
+    box-shadow: none;
+    border: 1px solid #00d1ff;
+}
+
+.outline {
+    border: 3px solid #00d1ff;
+    border-radius: 1rem;
+    padding: 2rem 3rem 2rem 3rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.submitButton {
+    background-color: #00d1ff;
+    border: none;
+    color: black;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 700;
+    width: 14rem;
+}
+
+.submitButton:hover {
+    background-color: #00bae2;
+    color: black;
+}
+
+.submitButton:active,
+.submitButton:focus {
+    background-color: #00a8cd;
+    color: black;
+}
+
+.registerLink {
+    margin-top: 3rem;
+    color: #00d1ff;
+}
+
+.registerLink:hover {
+    color: #00bae2;
+    cursor: pointer;
+}
+
+.nexatomSvg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

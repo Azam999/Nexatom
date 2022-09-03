@@ -1,0 +1,15 @@
+.sectionDescription {
+    color: #4d4d4d;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.sectionInformation {
+    width: 50%;
+}
+
+.sectionTitle {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 900 !important;
+    color: #363636;
+}
