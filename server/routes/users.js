@@ -32,6 +32,22 @@ router.get('/:id?', async (req, res) => {
     }
 });
 
+router.patch('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { bond } = req.query;
+
+    try {
+        const user = await User.updateOne({ _id: id }, { $push: { bonds: bond } }, { new: true }).select('-password');
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({
+            message: 'There was an error updating the user',
+        });
+    }
+
+})
+
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 

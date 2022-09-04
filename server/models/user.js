@@ -40,7 +40,11 @@ const UserSchema = new mongoose.Schema({
     majors: {
         type: Array,
         required: true
-    }
+    },
+    bonds: {
+        type: Array,
+        default: []
+    },
 }, {
     timestamps: true,
     versionKey: false

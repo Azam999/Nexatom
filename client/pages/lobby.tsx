@@ -7,6 +7,28 @@ import dynamic from 'next/dynamic';
 const LobbySpace = dynamic(() => import("../components/LobbySpace"), {
     ssr: false,
 });
+import jwt_decode from 'jwt-decode';
+
+const deleteUser = async (e: any) => {
+    const jwtToken = localStorage.getItem('token') as string;
+    const decoded = jwt_decode(jwtToken);
+    const id = (decoded as any)._id;
+
+    e.preventDefault();
+
+    await fetch('/api/delete', {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({ id }),
+    });
+};
+
+function logOut(e: any) {
+    deleteUser(e);
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('image');
+}
 
 
 const Lobby: React.FC = ({}) => {
@@ -39,6 +61,9 @@ const Lobby: React.FC = ({}) => {
                     <LobbySpace/>
                 {/* </div> */}
             </div>
+            <Button variant="primary" onClick={(e) => logOut(e)}>
+                Log out
+            </Button>
         </Container>
     );
 };

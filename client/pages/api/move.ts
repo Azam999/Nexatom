@@ -5,9 +5,10 @@ import { Hop } from '@onehop/js';
 import { z } from 'zod';
 
 const schema = z.object({
-    id: z.string().min(0).max(6969),
+    id: z.string(),
     x: z.number(),
     y: z.number(),
+    realm: z.string()
 });
 
 const hop = new Hop(process.env.HOP_PROJECT_TOKEN);
@@ -27,9 +28,9 @@ export default async function handler(
         return;
     }
 
-    const { id, x, y } = result.data;
+    const { id, x, y,realm } = result.data;
 
-    const data = { id, x, y };
+    const data = { id, x, y, realm };
 
     await hop.channels.publishMessage('messages', 'MESSAGE_CREATE', data);
 
