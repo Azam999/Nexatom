@@ -8,11 +8,9 @@ import styles from '../styles/LobbySpace.module.css';
 import {
     Stage,
     Layer,
-    Text,
     Image,
     Group,
     Label,
-    Rect,
     Shape,
 } from 'react-konva';
 import useImage from 'use-image';
@@ -120,9 +118,12 @@ const LobbySpace: React.FC = ({}) => {
     }
 
     useEffect(() => {
-        const info = getDis();
-        const smallDis = info[0];
-        console.log(smallDis, smallIdx, smallIdy, smallid, x, y);
+        const timerID = setInterval(function () {
+            const info = getDis();
+            const smallDis = info[0];
+            console.log(smallDis, smallIdx, smallIdy, smallid, x, y);
+        }, 1000);
+
         const submit = async (e) => {
             e.preventDefault();
 
@@ -154,11 +155,17 @@ const LobbySpace: React.FC = ({}) => {
 
         return () => {
             document.removeEventListener('keydown', keyDownHandler);
+            clearTimeout(timerID);
         };
     }, [id, x, y]);
 
     async function createBond() {
-        await axios.patch(`/api/users/${id}?bond=${smallid}`).catch(err => console.log(err));
+        await axios
+            .patch(`/api/users/${id}?bond=${smallid}`)
+            .catch((err) => console.log(err));
+        await axios
+            .patch(`/api/users/${smallid}?bond=${id}`)
+            .catch((err) => console.log(err));
     }
 
     function AtomModal() {
@@ -199,7 +206,9 @@ const LobbySpace: React.FC = ({}) => {
                     <Button variant='secondary' onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={createBond}>Bond</Button>
+                    <Button variant='primary' onClick={createBond}>
+                        Bond
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );

@@ -165,20 +165,18 @@ const MyProfile: React.FC = ({}) => {
                     </p>
                 </div>
             </div>
-            <p>Bonds</p>
-            <ol>
-                {user.bonds.map((bond: any) => (
-                    <li key={bond}>
-                        <a
-                            href={`http://localhost:3000/profile/${bond}`}
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            View Bond
-                        </a>
-                    </li>
-                ))}
-            </ol>
+            <h1>Bonds</h1>
+            {user.bonds.map((bond: any) => (
+                <span key={bond} className={styles.bondItem}>
+                    <a
+                        href={`http://localhost:3000/profile/${bond}`}
+                        target='_blank'
+                        rel='noreferrer'
+                    >
+                        View Bond
+                    </a>
+                </span>
+            ))}
             <br />
             <br />
         </Container>

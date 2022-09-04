@@ -34,6 +34,7 @@
     border-radius: 16px;
     padding: 2rem;
     margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
 .badge {
@@ -63,4 +64,19 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.bondItem {
+    background-color: yellow;
+    margin-top: 3rem;
+    text-decoration: none;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 3rem;
+}
+
+.bondItem a {
+    text-decoration: none;
+    color: black;
 }
