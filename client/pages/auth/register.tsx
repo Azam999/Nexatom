@@ -49,10 +49,7 @@ const LogIn: React.FC = () => {
                             image: imageRes.data.image,
                             experience: experience,
                             timezone: timezone,
-                            languages: (langsRes.data as Array<String>).slice(
-                                0,
-                                3
-                            ),
+                            languages: (langsRes.data as any).slice(0,3),
                             majors: majors,
                         };
 
@@ -60,12 +57,20 @@ const LogIn: React.FC = () => {
 
                         const res = await axios
                             .post('/api/auth/register', payload)
+                            .then(async (userRes) => {
+                                localStorage.setItem('image', imageRes.data.image);
+
+
+                                localStorage.setItem('token', userRes.data.accessToken);
+                                router.push(`/profile/${userRes.data.user._id}`);
+                                
+                                await axios.get(
+                                    `https://nexatom-us.herokuapp.com/api/algo/storeData?exp=${experience}&tz=${timezones[timezone!]}&lang1=${JSON.stringify(langsRes.data[0])}&lang2=${JSON.stringify(langsRes.data[1])}&lang3=${JSON.stringify(langsRes.data[2])}&majors=${JSON.stringify(majors)}&id=${userRes.data.user._id}`
+                                );
+                            })
                             .catch((err: any) => console.log(err));
 
-                        if (res?.data.accessToken) {
-                            localStorage.setItem('token', res.data.accessToken);
-                            router.push(`/profile/${res.data.user._id}`);
-                        }
+                        
                     })
                     .catch((err) => {
                         console.log(err);
@@ -83,10 +88,8 @@ const LogIn: React.FC = () => {
     timezones['(GMT -9:00) Alaska'] = 'GMT-9';
     timezones['(GMT -8:00) Pacific Time (US & Canada)'] = 'GMT-8';
     timezones['(GMT -7:00) Mountain Time (US & Canada)'] = 'GMT-7';
-    timezones['(GMT -6:00) Central Time (US & Canada), Mexico City'] =
-        'GMT-6';
-    timezones['(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima'] =
-        'GMT-5';
+    timezones['(GMT -6:00) Central Time (US & Canada), Mexico City'] = 'GMT-6';
+    timezones['(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima'] = 'GMT-5';
     timezones['(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz'] = 'GMT-4';
     timezones['(GMT -3:30) Newfoundland'] = 'GMT-3.5';
     timezones['(GMT -3:00) Brazil, Buenos Aires, Georgetown'] = 'GMT-3';
@@ -218,7 +221,7 @@ const LogIn: React.FC = () => {
                                 }
                             />
                         </Form.Group>
-                       
+
                         <Form.Group controlId='Majors' className='mb-4'>
                             <Form.Label style={{ color: 'grey' }}>
                                 Majors (separate with commas)
@@ -229,11 +232,11 @@ const LogIn: React.FC = () => {
                                 onChange={(
                                     e: React.SyntheticEvent<EventTarget>
                                 ) => {
-                                    const majorsList = (e.target as HTMLInputElement).value.split(',');
-                                    setMajors(majorsList)
-                                }
-                                    
-                                }
+                                    const majorsList = (
+                                        e.target as HTMLInputElement
+                                    ).value.split(',');
+                                    setMajors(majorsList);
+                                }}
                             />
                         </Form.Group>
                         <Form.Group controlId='Timezone' className='mb-4'>

@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 
 const MyProfile: React.FC = ({}) => {
     const router = useRouter();
-    const id = router.query.id as string;
 
     interface stackOverflowBadges {
         1: string;
@@ -21,7 +20,6 @@ const MyProfile: React.FC = ({}) => {
         3: '',
     });
 
-
     const [languages, setLanguages] = useState<string[]>([]);
 
     const [user, setUser] = useState({
@@ -34,11 +32,16 @@ const MyProfile: React.FC = ({}) => {
         experience: '',
         languages: [],
         timezone: '',
-        majors: []
+        majors: [],
     });
 
     useEffect(() => {
-        axios
+        if (!router.isReady) return;
+
+        const id = router.query.id as string;
+        
+        async function getUser() {
+            await axios
             .get(`/api/users/${id}`)
             .then((res) => {
                 setUser(res.data);
@@ -54,13 +57,13 @@ const MyProfile: React.FC = ({}) => {
                     .catch((err) => {
                         console.log(err);
                     });
-
-                
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+        }
+        getUser();
+    }, [router.isReady, router.query.id]);
 
     return (
         <Container className={styles.container}>
@@ -76,7 +79,7 @@ const MyProfile: React.FC = ({}) => {
                     <h2>{user.name}</h2>
                     <p>
                         Languages:{' '}
-                        {`${user.languages[0]}, ${user.languages[1]}, ${user.languages[2]}`}
+                        {`${user.languages.length > 0 ? Object.keys(user.languages[0])[0] : 'Loading'}, ${user.languages.length > 0 ? Object.keys(user.languages[1])[0] : 'Loading'}, ${user.languages.length > 0 ? Object.keys(user.languages[2])[0] : 'Loading'}`}
                     </p>
                 </div>
             </div>

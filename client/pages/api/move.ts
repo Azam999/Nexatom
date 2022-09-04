@@ -23,23 +23,29 @@ export default async function handler(
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      res.status(400).json({ success: false, message: "Invalid body" });
-      return;
+        res.status(400).json({ success: false, message: 'Invalid body' });
+        return;
     }
 
     const { id, x, y } = result.data;
 
-    const data = {id,x,y};
+    const data = { id, x, y };
 
-    await hop.channels.publishMessage("messages", "MESSAGE_CREATE", data);
+    await hop.channels.publishMessage('messages', 'MESSAGE_CREATE', data);
 
-    await hop.channels.setState("messages", state => ({
-      messages: [data, ...state.messages].slice(0, 20),
+    await hop.channels.setState('messages', (state) => ({
+        atoms:
+            state.atoms.length <= 0
+                ? [data, ...state.atoms].slice(0, 20)
+                : state.atoms.filter((e) => e.id == data.id).length > 0
+                ? state.atoms.map((x) => {
+                      const atom = [data].find(({ id }) => id === x.id);
+                      return atom ? atom : x;
+                  })
+                : [data, ...state.atoms].slice(0, 20),
     }));
-  
+
     res.json({
-      success: true,
+        success: true,
     });
-
 }
-

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -44,15 +45,15 @@ const Home: NextPage = () => {
                 </Link>
 
                 <InformationSection
-                    title=''
-                    description=''
-                    image=''
+                    title='Interact with other developers'
+                    description='With hop and channels, we are able to create a real-time system that allows you to interact with other developers.'
+                    image='/interaction.png'
                     toRight={true}
                 />
                 <InformationSection
-                    title=''
-                    description=''
-                    image=''
+                    title='Establish new bonds'
+                    description='With our custom unsupervised machine learning algorithm, we form atomic-recommendations after a bond between two atoms is formed'
+                    image='/bond.png'
                     toRight={false}
                 />
             </main>

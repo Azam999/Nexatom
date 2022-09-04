@@ -5,103 +5,97 @@ import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import styles from '../styles/LobbySpace.module.css';
-import { Stage, Layer, Text, Image, Group } from 'react-konva';
+import { Stage, Layer, Text, Image, Group, Rect } from 'react-konva';
 import useImage from 'use-image';
-import io from 'Socket.IO-client';
-let socket;
+import { useChannelMessage, useReadChannelState } from '@onehop/react';
 
 const LobbySpace: React.FC = ({}) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null);
-    const router = useRouter();
+    const [id, setId] = useState<string>('');
 
     // Get the user's token from local storage and image source
     useEffect(() => {
         if (localStorage.getItem('token')) {
             const jwtToken = localStorage.getItem('token') as string;
             const decoded = jwt_decode(jwtToken);
-            const id = (decoded as any)._id;
-
-            axios
-                .get(`/api/users/${id}`)
-                .then((res) => {
-                    setImageSrc(res.data.image);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            setId((decoded as any)._id);
+            setImageSrc(localStorage.getItem('image') as string);
         }
-    }, [router.asPath]);
-
-    // Socket.io websockets
-    useEffect(() => {
-        const socketInitializer = async () => {
-            await fetch('/api/socket');
-            socket = io();
-
-            socket.on('connect', () => {
-                console.log('connected');
-            });
-
-            socket.on('update-atom', (coordinates) => {
-                setX(coordinates.x);
-                setY(coordinates.y);
-            });
-        };
-
-        socketInitializer();
     }, []);
 
-    // Konva canvas
+    const [atoms, setAtoms] = useState<any[]>([]);
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
+
+    // useChannelMessage('messages', 'MESSAGE_CREATE', (data) => {
+    //     setAtoms([data, ...atoms]);
+    //     console.log('atoms',atoms);
+    // });
+
+    const { state } = useReadChannelState('atoms');
+
+    useEffect(() => {
+        if (atoms.length === 0 && state && state.atoms.length > 0) {
+            setAtoms(state.atoms);
+        }
+    }, [state, atoms]);
+
+    const width = 890;
+    const height = 500;
+
     const imageSize = 225;
 
-    const UserImage = () => {
+    const DefaultUserImage = () => {
         const [image] = useImage('data:image/png;base64,' + imageSrc);
 
         return <Image image={image} alt='image' />;
     };
 
-    // const UserGroup = (props) => {
-    //     return (
-    //         <Group
-    //             clipFunc={function (ctx) {
-    //                 ctx.arc(
-    //                     imageSize / 2,
-    //                     imageSize / 2,
-    //                     100,
-    //                     0,
-    //                     Math.PI * 2,
-    //                     false
-    //                 );
-    //             }}
-    //             draggable
-    //             scaleX={0.3}
-    //             scaleY={0.3}
-    //             x={x}
-    //             y={y}
-    //             onDragMove={(e) => {
-    //                 socket.emit('atom-moved', {
-    //                     x: e.target.x(),
-    //                     y: e.target.y(),
-    //                 });
-    //             }}
-    //         >
-    //             {props.children}
-    //         </Group>
-    //     );
-    // };
-
-    {/*
+    useEffect(() => {
+        const submit = async (e) => {
+            e.preventDefault();
     
-    */}
+            await fetch('/api/move', {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify({ id, x, y }),
+            });
+        };
+
+        const keyDownHandler = (e) => {
+            if (e.key === 'ArrowUp') {
+                setY((old) => old - 10);
+                submit(e);
+            } else if (e.key === 'ArrowDown') {
+                setY((old) => old + 10);
+                submit(e);
+            } else if (e.key === 'ArrowLeft') {
+                setX((old) => old - 10);
+                submit(e);
+            } else if (e.key === 'ArrowRight') {
+                setX((old) => old + 10);
+                submit(e);
+            }
+        };
+        document.addEventListener('keydown', keyDownHandler);
+
+        return () => {
+            document.removeEventListener('keydown', keyDownHandler);
+        };
+    }, [id, x, y]);
 
     return (
-        <Stage width={1000} height={1000}>
+        <Stage width={width} height={height}>
             <Layer>
-                {/* <UserGroup>
-                    <UserImage />
-                </UserGroup> */}
+                {/* <Rect
+                    x={100}
+                    y={100}
+                    width={100}
+                    height={50}
+                    fill={'green'}
+                    cornerRadius={10}
+                    draggable
+                ></Rect> */}
 
                 <Group
                     clipFunc={function (ctx) {
@@ -114,66 +108,17 @@ const LobbySpace: React.FC = ({}) => {
                             false
                         );
                     }}
-                    draggable
+                    //draggable
                     scaleX={0.3}
                     scaleY={0.3}
                     x={x}
                     y={y}
-                    onDragMove={(e) => {
-                        console.log(e.target.x(), e.target.y());
-                        socket.emit('atom-moved', {
-                            x: e.target.x(),
-                            y: e.target.y(),
-                        });
-                    }}
                 >
-                    <UserImage />
+                    <DefaultUserImage />
                 </Group>
             </Layer>
         </Stage>
     );
-
-    // const canvasRef = useRef(null);
-
-    // const drawCircleImage = (ctx) => {
-    //     const size = 50;
-
-    //     let moveX = 100;
-    //     let moveY = 0;
-    //     var image = new Image();
-    //     image.onload = function () {
-    //         ctx.save();
-    //         ctx.beginPath();
-    //         ctx.arc(
-    //             size / 2 + moveX,
-    //             size / 2 + moveY,
-    //             size / 2,
-    //             0,
-    //             Math.PI * 2,
-    //             true
-    //         );
-    //         ctx.closePath();
-    //         ctx.clip();
-
-    //         ctx.drawImage(image, moveX, moveY, size, size);
-
-    //         ctx.beginPath();
-    //         ctx.arc(moveX, moveY, size / 2, 0, Math.PI * 2, true);
-    //         ctx.clip();
-    //         ctx.closePath();
-    //         ctx.restore();
-    //     };
-    //     image.src = 'data:image/png;base64,' + imageSrc;
-    //     image.className = styles.circleImage;
-    // };
-
-    // useEffect(() => {
-    //     const canvas = canvasRef.current;
-    //     const context = canvas?.getContext('2d');
-    //     drawCircleImage(context);
-    // });
-
-    // return <canvas ref={canvasRef} width={400} height={400}></canvas>;
 };
 
 export default LobbySpace;

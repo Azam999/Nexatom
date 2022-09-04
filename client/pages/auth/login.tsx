@@ -22,6 +22,7 @@ const LogIn: React.FC = () => {
             })
             .catch((err: any) => console.log(err));
 
+        localStorage.setItem('image', res?.data.image);
         if (res?.data.accessToken) {
             localStorage.setItem('token', res.data.accessToken);
             router.push(`/profile/${res.data.user._id}`);

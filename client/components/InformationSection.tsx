@@ -26,13 +26,13 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                                 {description}
                             </p>
                         </div>
-                        <Image src={image} alt="information section image" />
+                        <Image src={image} alt="information section image" width="200" height="200" />
                     </div>
                 </section>
             ) : (
                 <section className={'mt-5 w-75 h-100'}>
                     <div className='d-flex flex-row align-items-center justify-content-around flex-wrap'>
-                        <Image src={image} alt="information section image" />
+                        <Image src={image} alt="information section image" width="200" height="200"  />
                         <div className={styles.sectionInformation}>
                             <h2 className={styles.sectionTitle}>{title}</h2>
                             <p className={styles.sectionDescription}>
