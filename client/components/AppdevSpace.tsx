@@ -280,7 +280,6 @@ const LobbySpace: React.FC = ({}) => {
                         )
                     ) : (
 
-                        atom.realm == realm ? 
                         <Group
                             clipFunc={function (ctx) {
                                 ctx.arc(
@@ -298,9 +297,7 @@ const LobbySpace: React.FC = ({}) => {
                             y={y}
                         >
                             <DefaultUserImage />
-                        </Group> :  (
-                                <Group></Group>
-                            )
+                        </Group> 
                     )}
                 </Layer>
             </Stage>
