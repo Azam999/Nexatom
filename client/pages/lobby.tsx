@@ -44,12 +44,6 @@ const Lobby: React.FC = ({}) => {
                     <Link href="/atom-realm/app-development">
                         <div className={styles.atomRealmButton}>App Development</div>
                     </Link>
-                    <Link href="/atom-realm/ml">
-                        <div className={styles.atomRealmButton}>Machine Learning</div>
-                    </Link>
-                    <Link href="/atom-realm/desktop-applications">
-                        <div className={styles.atomRealmButton}>Desktop Applications</div>
-                    </Link>
                     <Link href="/atom-realm/find-cofounder">
                         <div className={styles.atomRealmButton}>Find Co-founder</div>
                     </Link>

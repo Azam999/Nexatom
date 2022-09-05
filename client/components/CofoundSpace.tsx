@@ -4,15 +4,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import styles from '../styles/LobbySpace.module.css';
-import {
-    Stage,
-    Layer,
-    Image,
-    Group,
-    Label,
-    Shape,
-} from 'react-konva';
+import styles from '../../styles/LobbySpace.module.css';
+import { Stage, Layer, Image, Group, Label, Shape } from 'react-konva';
 import useImage from 'use-image';
 import { useChannelMessage, useReadChannelState } from '@onehop/react';
 import { Modal, Button } from 'react-bootstrap';
@@ -31,7 +24,7 @@ const LobbySpace: React.FC = ({}) => {
     const width = 890;
     const height = 500;
 
-    const realm = 'lobby';
+    const realm = 'find-cofounder';
 
     const [atoms, setAtoms] = useState<any[]>([]);
     const [x, setX] = useState(width / 2);

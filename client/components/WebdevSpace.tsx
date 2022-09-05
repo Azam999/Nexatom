@@ -24,7 +24,7 @@ const LobbySpace: React.FC = ({}) => {
     const width = 890;
     const height = 500;
 
-    const realm = 'ml';
+    const realm = 'web-development';
 
     const [atoms, setAtoms] = useState<any[]>([]);
     const [x, setX] = useState(width / 2);
@@ -88,7 +88,7 @@ const LobbySpace: React.FC = ({}) => {
         var smallIdyy = 1000;
         var smallidd = '';
         state?.atoms?.map((atom, index) => {
-            if (atom.id != id) {
+            if (atom.id != id && atom.realm == realm) {
                 const dis = Math.sqrt(
                     (x - atom.x) * (x - atom.x) + (y - atom.y) * (y - atom.y)
                 );
@@ -279,6 +279,7 @@ const LobbySpace: React.FC = ({}) => {
                             )
                         )
                     ) : (
+                        atom.realm == realm ? 
                         <Group
                             clipFunc={function (ctx) {
                                 ctx.arc(
@@ -296,7 +297,9 @@ const LobbySpace: React.FC = ({}) => {
                             y={y}
                         >
                             <DefaultUserImage />
-                        </Group>
+                        </Group> :  (
+                                <Group></Group>
+                            )
                     )}
                 </Layer>
             </Stage>
